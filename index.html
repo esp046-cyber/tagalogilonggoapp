@@ -1,0 +1,2890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Tagalog-Ilonggo Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 1%;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+            color: white;
+            padding: 12px 1%;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 8px;
+            background: none;
+            border: none;
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-tab.active {
+            color: #5e72e4;
+            border-bottom-color: #5e72e4;
+            background: white;
+        }
+
+        .content {
+            padding: 1%;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category {
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 1%;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-header::after {
+            content: '▼';
+            font-size: 10px;
+            transition: transform 0.3s;
+        }
+
+        .category-header.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+        .category-content {
+            padding: 1%;
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+        }
+
+        .category-content.collapsed {
+            max-height: 0;
+            padding: 0 1%;
+        }
+
+        .phrase-item {
+            background: white;
+            padding: 10px 1%;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border-left: 4px solid #5e72e4;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .phrase-tagalog {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .phrase-ilonggo {
+            font-size: 12px;
+            color: #5e72e4;
+            margin-bottom: 4px;
+        }
+
+        .phrase-english {
+            font-size: 11px;
+            color: #718096;
+            font-style: italic;
+        }
+
+        .translator-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1%;
+            margin-bottom: 15px;
+        }
+
+        .translator-input, .translator-output {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 13px;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .translator-input:focus, .translator-output:focus {
+            outline: none;
+            border-color: #5e72e4;
+        }
+
+        .translator-output {
+            background: white;
+            min-height: 80px;
+        }
+
+        .btn-translate {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-translate:active {
+            transform: scale(0.98);
+        }
+
+        .grammar-card {
+            background: white;
+            padding: 12px 1%;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #48bb78;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .grammar-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+
+        .grammar-content {
+            font-size: 12px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .example {
+            background: #edf2f7;
+            padding: 8px;
+            margin-top: 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 8px;
+            padding: 15px 1%;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            background: #e0e0e0;
+        }
+
+        .quiz-option.correct {
+            background: #c6f6d5;
+            border-color: #48bb78;
+        }
+
+        .quiz-option.wrong {
+            background: #fed7d7;
+            border-color: #f56565;
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇵🇭 Tagalog-Ilonggo Language Guide</h1>
+            <p>Learn Hiligaynon/Ilonggo for Tagalog Speakers</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('basics')">Basics</button>
+            <button class="nav-tab" onclick="showSection('phrases')">Phrases</button>
+            <button class="nav-tab" onclick="showSection('grammar')">Grammar</button>
+            <button class="nav-tab" onclick="showSection('translator')">Translator</button>
+            <button class="nav-tab" onclick="showSection('quiz')">Quiz</button>
+        </div>
+
+        <div class="content">
+            <!-- BASICS SECTION -->
+            <div id="basics" class="section active">
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Common Greetings
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Magandang umaga</div>
+                            <div class="phrase-ilonggo">Maayong aga</div>
+                            <div class="phrase-english">Good morning</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Magandang hapon</div>
+                            <div class="phrase-ilonggo">Maayong hapon</div>
+                            <div class="phrase-english">Good afternoon</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Magandang gabi</div>
+                            <div class="phrase-ilonggo">Maayong gab-i</div>
+                            <div class="phrase-english">Good evening</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kumusta ka?</div>
+                            <div class="phrase-ilonggo">Kamusta ka?</div>
+                            <div class="phrase-english">How are you?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mabuti naman</div>
+                            <div class="phrase-ilonggo">Maayo man</div>
+                            <div class="phrase-english">I'm fine</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Basic Pronouns
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ako</div>
+                            <div class="phrase-ilonggo">Ako</div>
+                            <div class="phrase-english">I/Me</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ikaw</div>
+                            <div class="phrase-ilonggo">Ikaw / Ka</div>
+                            <div class="phrase-english">You (singular)</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Siya</div>
+                            <div class="phrase-ilonggo">Siya</div>
+                            <div class="phrase-english">He/She</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tayo</div>
+                            <div class="phrase-ilonggo">Kita (inclusive)</div>
+                            <div class="phrase-english">We (including listener)</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kami</div>
+                            <div class="phrase-ilonggo">Kami</div>
+                            <div class="phrase-english">We (excluding listener)</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kayo</div>
+                            <div class="phrase-ilonggo">Kamo</div>
+                            <div class="phrase-english">You (plural)</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sila</div>
+                            <div class="phrase-ilonggo">Sila</div>
+                            <div class="phrase-english">They</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Numbers 1-10
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Isa</div>
+                            <div class="phrase-ilonggo">Isa</div>
+                            <div class="phrase-english">One</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Dalawa</div>
+                            <div class="phrase-ilonggo">Duha</div>
+                            <div class="phrase-english">Two</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tatlo</div>
+                            <div class="phrase-ilonggo">Tatlo</div>
+                            <div class="phrase-english">Three</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Apat</div>
+                            <div class="phrase-ilonggo">Apat</div>
+                            <div class="phrase-english">Four</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Lima</div>
+                            <div class="phrase-ilonggo">Lima</div>
+                            <div class="phrase-english">Five</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Anim</div>
+                            <div class="phrase-ilonggo">Anom</div>
+                            <div class="phrase-english">Six</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pito</div>
+                            <div class="phrase-ilonggo">Pito</div>
+                            <div class="phrase-english">Seven</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Walo</div>
+                            <div class="phrase-ilonggo">Walo</div>
+                            <div class="phrase-english">Eight</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Siyam</div>
+                            <div class="phrase-ilonggo">Siyam</div>
+                            <div class="phrase-english">Nine</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sampu</div>
+                            <div class="phrase-ilonggo">Napulo</div>
+                            <div class="phrase-english">Ten</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Labing-isa</div>
+                            <div class="phrase-ilonggo">Napulo kag isa</div>
+                            <div class="phrase-english">Eleven</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Labindalawa</div>
+                            <div class="phrase-ilonggo">Napulo kag duha</div>
+                            <div class="phrase-english">Twelve</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Dalawampu</div>
+                            <div class="phrase-ilonggo">Duha ka pulo</div>
+                            <div class="phrase-english">Twenty</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tatlumpu</div>
+                            <div class="phrase-ilonggo">Tatlo ka pulo</div>
+                            <div class="phrase-english">Thirty</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Daan</div>
+                            <div class="phrase-ilonggo">Gatos</div>
+                            <div class="phrase-english">Hundred</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Libo</div>
+                            <div class="phrase-ilonggo">Libo</div>
+                            <div class="phrase-english">Thousand</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Days of the Week
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Lunes</div>
+                            <div class="phrase-ilonggo">Lunes</div>
+                            <div class="phrase-english">Monday</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Martes</div>
+                            <div class="phrase-ilonggo">Martes</div>
+                            <div class="phrase-english">Tuesday</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Miyerkules</div>
+                            <div class="phrase-ilonggo">Miyerkules</div>
+                            <div class="phrase-english">Wednesday</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Huwebes</div>
+                            <div class="phrase-ilonggo">Huwebes</div>
+                            <div class="phrase-english">Thursday</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Biyernes</div>
+                            <div class="phrase-ilonggo">Biernes</div>
+                            <div class="phrase-english">Friday</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sabado</div>
+                            <div class="phrase-ilonggo">Sabado</div>
+                            <div class="phrase-english">Saturday</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Linggo</div>
+                            <div class="phrase-ilonggo">Domingo</div>
+                            <div class="phrase-english">Sunday</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Colors
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Puti</div>
+                            <div class="phrase-ilonggo">Puti</div>
+                            <div class="phrase-english">White</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Itim</div>
+                            <div class="phrase-ilonggo">Itom</div>
+                            <div class="phrase-english">Black</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pula</div>
+                            <div class="phrase-ilonggo">Pula</div>
+                            <div class="phrase-english">Red</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Asul</div>
+                            <div class="phrase-ilonggo">Asul</div>
+                            <div class="phrase-english">Blue</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Berde</div>
+                            <div class="phrase-ilonggo">Lunhaw</div>
+                            <div class="phrase-english">Green</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Dilaw</div>
+                            <div class="phrase-ilonggo">Dalag</div>
+                            <div class="phrase-english">Yellow</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kahel</div>
+                            <div class="phrase-ilonggo">Kahel</div>
+                            <div class="phrase-english">Orange</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kulay-abo</div>
+                            <div class="phrase-ilonggo">Abohon</div>
+                            <div class="phrase-english">Gray</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Body Parts
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ulo</div>
+                            <div class="phrase-ilonggo">Ulo</div>
+                            <div class="phrase-english">Head</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mata</div>
+                            <div class="phrase-ilonggo">Mata</div>
+                            <div class="phrase-english">Eyes</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ilong</div>
+                            <div class="phrase-ilonggo">Ilong</div>
+                            <div class="phrase-english">Nose</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bibig</div>
+                            <div class="phrase-ilonggo">Baba</div>
+                            <div class="phrase-english">Mouth</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tenga</div>
+                            <div class="phrase-ilonggo">Talinga</div>
+                            <div class="phrase-english">Ear</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kamay</div>
+                            <div class="phrase-ilonggo">Kamot</div>
+                            <div class="phrase-english">Hand</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Paa</div>
+                            <div class="phrase-ilonggo">Tiil</div>
+                            <div class="phrase-english">Foot/Leg</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Katawan</div>
+                            <div class="phrase-ilonggo">Lawas</div>
+                            <div class="phrase-english">Body</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Common Verbs
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kumain</div>
+                            <div class="phrase-ilonggo">Nagkaon</div>
+                            <div class="phrase-english">Ate</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Uminom</div>
+                            <div class="phrase-ilonggo">Nag-inom</div>
+                            <div class="phrase-english">Drank</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pumunta</div>
+                            <div class="phrase-ilonggo">Nagkadto</div>
+                            <div class="phrase-english">Went</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Umuwi</div>
+                            <div class="phrase-ilonggo">Nagbalik</div>
+                            <div class="phrase-english">Went home</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Matulog</div>
+                            <div class="phrase-ilonggo">Magkatulog</div>
+                            <div class="phrase-english">Sleep</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Gumising</div>
+                            <div class="phrase-ilonggo">Nagmata</div>
+                            <div class="phrase-english">Woke up</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Magluto</div>
+                            <div class="phrase-ilonggo">Magluto</div>
+                            <div class="phrase-english">Cook</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maglaba</div>
+                            <div class="phrase-ilonggo">Maglaba</div>
+                            <div class="phrase-english">Do laundry</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maglinis</div>
+                            <div class="phrase-ilonggo">Maghinlo</div>
+                            <div class="phrase-english">Clean</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bumili</div>
+                            <div class="phrase-ilonggo">Nagbakal</div>
+                            <div class="phrase-english">Bought</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Animals
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Aso</div>
+                            <div class="phrase-ilonggo">Ido</div>
+                            <div class="phrase-english">Dog</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pusa</div>
+                            <div class="phrase-ilonggo">Kuring</div>
+                            <div class="phrase-english">Cat</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ibon</div>
+                            <div class="phrase-ilonggo">Pispis</div>
+                            <div class="phrase-english">Bird</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Baboy</div>
+                            <div class="phrase-ilonggo">Baboy</div>
+                            <div class="phrase-english">Pig</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Manok</div>
+                            <div class="phrase-ilonggo">Manok</div>
+                            <div class="phrase-english">Chicken</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kabayo</div>
+                            <div class="phrase-ilonggo">Kabayo</div>
+                            <div class="phrase-english">Horse</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Baka</div>
+                            <div class="phrase-ilonggo">Baka</div>
+                            <div class="phrase-english">Cow</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kalabaw</div>
+                            <div class="phrase-ilonggo">Karabaw</div>
+                            <div class="phrase-english">Carabao</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Common Objects
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Libro</div>
+                            <div class="phrase-ilonggo">Libro</div>
+                            <div class="phrase-english">Book</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Papel</div>
+                            <div class="phrase-ilonggo">Papel</div>
+                            <div class="phrase-english">Paper</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Lapis</div>
+                            <div class="phrase-ilonggo">Lapis</div>
+                            <div class="phrase-english">Pencil</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bolpen</div>
+                            <div class="phrase-ilonggo">Bolpen</div>
+                            <div class="phrase-english">Pen</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mesa</div>
+                            <div class="phrase-ilonggo">Lamesa</div>
+                            <div class="phrase-english">Table</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Silya</div>
+                            <div class="phrase-ilonggo">Siya</div>
+                            <div class="phrase-english">Chair</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pinto</div>
+                            <div class="phrase-ilonggo">Pultahan</div>
+                            <div class="phrase-english">Door</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bintana</div>
+                            <div class="phrase-ilonggo">Bentana</div>
+                            <div class="phrase-english">Window</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kama</div>
+                            <div class="phrase-ilonggo">Katre</div>
+                            <div class="phrase-english">Bed</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Telepono</div>
+                            <div class="phrase-ilonggo">Telepono</div>
+                            <div class="phrase-english">Phone</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Adjectives
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Malaki</div>
+                            <div class="phrase-ilonggo">Dako</div>
+                            <div class="phrase-english">Big</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maliit</div>
+                            <div class="phrase-ilonggo">Gamay</div>
+                            <div class="phrase-english">Small</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maganda</div>
+                            <div class="phrase-ilonggo">Matahom</div>
+                            <div class="phrase-english">Beautiful</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pangit</div>
+                            <div class="phrase-ilonggo">Law-ay</div>
+                            <div class="phrase-english">Ugly</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bago</div>
+                            <div class="phrase-ilonggo">Bag-o</div>
+                            <div class="phrase-english">New</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Luma</div>
+                            <div class="phrase-ilonggo">Daan</div>
+                            <div class="phrase-english">Old (things)</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mabilis</div>
+                            <div class="phrase-ilonggo">Madali</div>
+                            <div class="phrase-english">Fast</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mabagal</div>
+                            <div class="phrase-ilonggo">Mahinay</div>
+                            <div class="phrase-english">Slow</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mataba</div>
+                            <div class="phrase-ilonggo">Matambok</div>
+                            <div class="phrase-english">Fat</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Payat</div>
+                            <div class="phrase-ilonggo">Maniwang</div>
+                            <div class="phrase-english">Thin</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Nature & Environment
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bundok</div>
+                            <div class="phrase-ilonggo">Bukid</div>
+                            <div class="phrase-english">Mountain</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Dagat</div>
+                            <div class="phrase-ilonggo">Dagat</div>
+                            <div class="phrase-english">Sea/Ocean</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ilog</div>
+                            <div class="phrase-ilonggo">Suba</div>
+                            <div class="phrase-english">River</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bulaklak</div>
+                            <div class="phrase-ilonggo">Bulak</div>
+                            <div class="phrase-english">Flower</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Puno</div>
+                            <div class="phrase-ilonggo">Kahoy</div>
+                            <div class="phrase-english">Tree</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Dahon</div>
+                            <div class="phrase-ilonggo">Dahon</div>
+                            <div class="phrase-english">Leaf</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bato</div>
+                            <div class="phrase-ilonggo">Bato</div>
+                            <div class="phrase-english">Stone/Rock</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Langit</div>
+                            <div class="phrase-ilonggo">Langit</div>
+                            <div class="phrase-english">Sky</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Araw (sun)</div>
+                            <div class="phrase-ilonggo">Adlaw</div>
+                            <div class="phrase-english">Sun</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Buwan</div>
+                            <div class="phrase-ilonggo">Bulan</div>
+                            <div class="phrase-english">Moon</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Clothing & Accessories
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Damit</div>
+                            <div class="phrase-ilonggo">Bayo</div>
+                            <div class="phrase-english">Clothes</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pantalon</div>
+                            <div class="phrase-ilonggo">Karsones</div>
+                            <div class="phrase-english">Pants</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sapatos</div>
+                            <div class="phrase-ilonggo">Sapatos</div>
+                            <div class="phrase-english">Shoes</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sombrero</div>
+                            <div class="phrase-ilonggo">Kalo</div>
+                            <div class="phrase-english">Hat</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Medyas</div>
+                            <div class="phrase-ilonggo">Medyas</div>
+                            <div class="phrase-english">Socks</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Relo</div>
+                            <div class="phrase-ilonggo">Relo</div>
+                            <div class="phrase-english">Watch</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Salamin (glasses)</div>
+                            <div class="phrase-ilonggo">Antiparras</div>
+                            <div class="phrase-english">Eyeglasses</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bag</div>
+                            <div class="phrase-ilonggo">Bag</div>
+                            <div class="phrase-english">Bag</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Household Items
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kutsara</div>
+                            <div class="phrase-ilonggo">Kutsara</div>
+                            <div class="phrase-english">Spoon</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tinidor</div>
+                            <div class="phrase-ilonggo">Tinidor</div>
+                            <div class="phrase-english">Fork</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kutsilyo</div>
+                            <div class="phrase-ilonggo">Kuchilyo</div>
+                            <div class="phrase-english">Knife</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Plato</div>
+                            <div class="phrase-ilonggo">Plato</div>
+                            <div class="phrase-english">Plate</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Baso</div>
+                            <div class="phrase-ilonggo">Baso</div>
+                            <div class="phrase-english">Glass</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tasa</div>
+                            <div class="phrase-ilonggo">Tasa</div>
+                            <div class="phrase-english">Cup</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sabon</div>
+                            <div class="phrase-ilonggo">Sabon</div>
+                            <div class="phrase-english">Soap</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tuwalya</div>
+                            <div class="phrase-ilonggo">Tuwalya</div>
+                            <div class="phrase-english">Towel</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kumot</div>
+                            <div class="phrase-ilonggo">Habol</div>
+                            <div class="phrase-english">Blanket</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Unan</div>
+                            <div class="phrase-ilonggo">Unlan</div>
+                            <div class="phrase-english">Pillow</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Transportation
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kotse</div>
+                            <div class="phrase-ilonggo">Awto</div>
+                            <div class="phrase-english">Car</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Motor</div>
+                            <div class="phrase-ilonggo">Motorsiklo</div>
+                            <div class="phrase-english">Motorcycle</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bisikleta</div>
+                            <div class="phrase-ilonggo">Bisikleta</div>
+                            <div class="phrase-english">Bicycle</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bus</div>
+                            <div class="phrase-ilonggo">Bus</div>
+                            <div class="phrase-english">Bus</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Jeep</div>
+                            <div class="phrase-ilonggo">Jeep</div>
+                            <div class="phrase-english">Jeepney</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tren</div>
+                            <div class="phrase-ilonggo">Tren</div>
+                            <div class="phrase-english">Train</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Eroplano</div>
+                            <div class="phrase-ilonggo">Eroplano</div>
+                            <div class="phrase-english">Airplane</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Barko</div>
+                            <div class="phrase-ilonggo">Barko</div>
+                            <div class="phrase-english">Ship</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Descriptions & States
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Matangkad</div>
+                            <div class="phrase-ilonggo">Mataas</div>
+                            <div class="phrase-english">Tall</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pandak</div>
+                            <div class="phrase-ilonggo">Manubo</div>
+                            <div class="phrase-english">Short (height)</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mahaba</div>
+                            <div class="phrase-ilonggo">Malaba</div>
+                            <div class="phrase-english">Long</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maikli</div>
+                            <div class="phrase-ilonggo">Mubo</div>
+                            <div class="phrase-english">Short (length)</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Malakas</div>
+                            <div class="phrase-ilonggo">Mabaskug</div>
+                            <div class="phrase-english">Strong</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mahina</div>
+                            <div class="phrase-ilonggo">Maluya</div>
+                            <div class="phrase-english">Weak</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Matigas</div>
+                            <div class="phrase-ilonggo">Matig-a</div>
+                            <div class="phrase-english">Hard</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Malambot</div>
+                            <div class="phrase-ilonggo">Malumok</div>
+                            <div class="phrase-english">Soft</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Basa</div>
+                            <div class="phrase-ilonggo">Basa</div>
+                            <div class="phrase-english">Wet</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tuyo</div>
+                            <div class="phrase-ilonggo">Mala</div>
+                            <div class="phrase-english">Dry</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Technology & Communication
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kompyuter</div>
+                            <div class="phrase-ilonggo">Kompyuter</div>
+                            <div class="phrase-english">Computer</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Cellphone</div>
+                            <div class="phrase-ilonggo">Cellphone</div>
+                            <div class="phrase-english">Cellphone</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Internet</div>
+                            <div class="phrase-ilonggo">Internet</div>
+                            <div class="phrase-english">Internet</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Email</div>
+                            <div class="phrase-ilonggo">Email</div>
+                            <div class="phrase-english">Email</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mensahe</div>
+                            <div class="phrase-ilonggo">Mensahe</div>
+                            <div class="phrase-english">Message</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tawag</div>
+                            <div class="phrase-ilonggo">Tawag</div>
+                            <div class="phrase-english">Call</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Larawan</div>
+                            <div class="phrase-ilonggo">Litrato</div>
+                            <div class="phrase-english">Picture/Photo</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Video</div>
+                            <div class="phrase-ilonggo">Video</div>
+                            <div class="phrase-english">Video</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Time & Duration
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Oras</div>
+                            <div class="phrase-ilonggo">Oras</div>
+                            <div class="phrase-english">Hour/Time</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Minuto</div>
+                            <div class="phrase-ilonggo">Minuto</div>
+                            <div class="phrase-english">Minute</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Segundo</div>
+                            <div class="phrase-ilonggo">Segundo</div>
+                            <div class="phrase-english">Second</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Araw (day)</div>
+                            <div class="phrase-ilonggo">Adlaw</div>
+                            <div class="phrase-english">Day</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Linggo (week)</div>
+                            <div class="phrase-ilonggo">Simana</div>
+                            <div class="phrase-english">Week</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Buwan (month)</div>
+                            <div class="phrase-ilonggo">Bulan</div>
+                            <div class="phrase-english">Month</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Taon</div>
+                            <div class="phrase-ilonggo">Tuig</div>
+                            <div class="phrase-english">Year</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maaga</div>
+                            <div class="phrase-ilonggo">Sayo</div>
+                            <div class="phrase-english">Early</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Huli</div>
+                            <div class="phrase-ilonggo">Ulihi</div>
+                            <div class="phrase-english">Late</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ngayon</div>
+                            <div class="phrase-ilonggo">Subong</div>
+                            <div class="phrase-english">Now</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHRASES SECTION -->
+            <div id="phrases" class="section">
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Polite Expressions
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Salamat</div>
+                            <div class="phrase-ilonggo">Salamat</div>
+                            <div class="phrase-english">Thank you</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Walang anuman</div>
+                            <div class="phrase-ilonggo">Wala sing ano</div>
+                            <div class="phrase-english">You're welcome</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Paumanhin / Pasensya na</div>
+                            <div class="phrase-ilonggo">Pasensya na / Dispinsahon</div>
+                            <div class="phrase-english">Sorry / Excuse me</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Oo</div>
+                            <div class="phrase-ilonggo">Huo / Hoo</div>
+                            <div class="phrase-english">Yes</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Hindi</div>
+                            <div class="phrase-ilonggo">Indi</div>
+                            <div class="phrase-english">No</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Daily Conversations
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ano ang pangalan mo?</div>
+                            <div class="phrase-ilonggo">Ano ngalan mo?</div>
+                            <div class="phrase-english">What is your name?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Saan ka pupunta?</div>
+                            <div class="phrase-ilonggo">Diin ka makadto?</div>
+                            <div class="phrase-english">Where are you going?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Gutom ako</div>
+                            <div class="phrase-ilonggo">Gutom ako</div>
+                            <div class="phrase-english">I'm hungry</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Uhaw ako</div>
+                            <div class="phrase-ilonggo">Uhaw ako</div>
+                            <div class="phrase-english">I'm thirsty</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pagod ako</div>
+                            <div class="phrase-ilonggo">Gikapoy ako</div>
+                            <div class="phrase-english">I'm tired</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kain tayo</div>
+                            <div class="phrase-ilonggo">Kaon kita</div>
+                            <div class="phrase-english">Let's eat</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mahal kita</div>
+                            <div class="phrase-ilonggo">Palangga ta ka</div>
+                            <div class="phrase-english">I love you</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Common Questions
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ano ito?</div>
+                            <div class="phrase-ilonggo">Ano ini?</div>
+                            <div class="phrase-english">What is this?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Nasaan ka?</div>
+                            <div class="phrase-ilonggo">Diin ka?</div>
+                            <div class="phrase-english">Where are you?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kailan?</div>
+                            <div class="phrase-ilonggo">San-o?</div>
+                            <div class="phrase-english">When?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bakit?</div>
+                            <div class="phrase-ilonggo">Ngaa?</div>
+                            <div class="phrase-english">Why?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Paano?</div>
+                            <div class="phrase-ilonggo">Paano?</div>
+                            <div class="phrase-english">How?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Magkano?</div>
+                            <div class="phrase-ilonggo">Pila?</div>
+                            <div class="phrase-english">How much?</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Family Members
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ama / Tatay</div>
+                            <div class="phrase-ilonggo">Tatay / Amay</div>
+                            <div class="phrase-english">Father</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ina / Nanay</div>
+                            <div class="phrase-ilonggo">Iloy / Inay</div>
+                            <div class="phrase-english">Mother</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kapatid na lalaki</div>
+                            <div class="phrase-ilonggo">Manghod nga lalaki</div>
+                            <div class="phrase-english">Brother</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kapatid na babae</div>
+                            <div class="phrase-ilonggo">Manghod nga babayi</div>
+                            <div class="phrase-english">Sister</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Lolo</div>
+                            <div class="phrase-ilonggo">Lolo</div>
+                            <div class="phrase-english">Grandfather</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Lola</div>
+                            <div class="phrase-ilonggo">Lola</div>
+                            <div class="phrase-english">Grandmother</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Anak</div>
+                            <div class="phrase-ilonggo">Anak</div>
+                            <div class="phrase-english">Child</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Asawa</div>
+                            <div class="phrase-ilonggo">Asawa</div>
+                            <div class="phrase-english">Spouse</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Food & Drinks
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tubig</div>
+                            <div class="phrase-ilonggo">Tubig</div>
+                            <div class="phrase-english">Water</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kanin</div>
+                            <div class="phrase-ilonggo">Bugas / Kan-on</div>
+                            <div class="phrase-english">Rice</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tinapay</div>
+                            <div class="phrase-ilonggo">Pan / Tinapay</div>
+                            <div class="phrase-english">Bread</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kape</div>
+                            <div class="phrase-ilonggo">Kape</div>
+                            <div class="phrase-english">Coffee</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Gatas</div>
+                            <div class="phrase-ilonggo">Gatas</div>
+                            <div class="phrase-english">Milk</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Itlog</div>
+                            <div class="phrase-ilonggo">Itlog</div>
+                            <div class="phrase-english">Egg</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Isda</div>
+                            <div class="phrase-ilonggo">Isda</div>
+                            <div class="phrase-english">Fish</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalag">Karne</div>
+                            <div class="phrase-ilonggo">Karne</div>
+                            <div class="phrase-english">Meat</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Prutas</div>
+                            <div class="phrase-ilonggo">Prutas</div>
+                            <div class="phrase-english">Fruit</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Gulay</div>
+                            <div class="phrase-ilonggo">Utan</div>
+                            <div class="phrase-english">Vegetables</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Weather & Time
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mainit</div>
+                            <div class="phrase-ilonggo">Mainit</div>
+                            <div class="phrase-english">Hot</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Malamig</div>
+                            <div class="phrase-ilonggo">Matugnaw</div>
+                            <div class="phrase-english">Cold</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Umuulan</div>
+                            <div class="phrase-ilonggo">Nagaulan</div>
+                            <div class="phrase-english">Raining</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maaraw</div>
+                            <div class="phrase-ilonggo">Maadlaw</div>
+                            <div class="phrase-english">Sunny</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Umaga</div>
+                            <div class="phrase-ilonggo">Aga</div>
+                            <div class="phrase-english">Morning</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tanghali</div>
+                            <div class="phrase-ilonggo">Udto</div>
+                            <div class="phrase-english">Noon</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Hapon</div>
+                            <div class="phrase-ilonggo">Hapon</div>
+                            <div class="phrase-english">Afternoon</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Gabi</div>
+                            <div class="phrase-ilonggo">Gab-i</div>
+                            <div class="phrase-english">Night</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ngayon</div>
+                            <div class="phrase-ilonggo">Subong</div>
+                            <div class="phrase-english">Now / Today</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bukas</div>
+                            <div class="phrase-ilonggo">Bukas</div>
+                            <div class="phrase-english">Tomorrow</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kahapon</div>
+                            <div class="phrase-ilonggo">Kahapon</div>
+                            <div class="phrase-english">Yesterday</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Travel & Directions
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Saan ang...</div>
+                            <div class="phrase-ilonggo">Diin ang...</div>
+                            <div class="phrase-english">Where is...</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kaliwa</div>
+                            <div class="phrase-ilonggo">Wala</div>
+                            <div class="phrase-english">Left</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kanan</div>
+                            <div class="phrase-ilonggo">Tuo</div>
+                            <div class="phrase-english">Right</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Diretso</div>
+                            <div class="phrase-ilonggo">Direcho</div>
+                            <div class="phrase-english">Straight</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Malapit</div>
+                            <div class="phrase-ilonggo">Malapit</div>
+                            <div class="phrase-english">Near</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Malayo</div>
+                            <div class="phrase-ilonggo">Malayo</div>
+                            <div class="phrase-english">Far</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bahay</div>
+                            <div class="phrase-ilonggo">Balay</div>
+                            <div class="phrase-english">House</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tindahan</div>
+                            <div class="phrase-ilonggo">Tindahan</div>
+                            <div class="phrase-english">Store</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Simbahan</div>
+                            <div class="phrase-ilonggo">Simbahan</div>
+                            <div class="phrase-english">Church</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ospital</div>
+                            <div class="phrase-ilonggo">Ospital</div>
+                            <div class="phrase-english">Hospital</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Feelings & Emotions
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Masaya</div>
+                            <div class="phrase-ilonggo">Malipayon</div>
+                            <div class="phrase-english">Happy</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Malungkot</div>
+                            <div class="phrase-ilonggo">Masubo</div>
+                            <div class="phrase-english">Sad</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Galit</div>
+                            <div class="phrase-ilonggo">Akig</div>
+                            <div class="phrase-english">Angry</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Takot</div>
+                            <div class="phrase-ilonggo">Hadlok</div>
+                            <div class="phrase-english">Scared</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Masakit</div>
+                            <div class="phrase-ilonggo">Masakit</div>
+                            <div class="phrase-english">Painful/Hurts</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">May sakit</div>
+                            <div class="phrase-ilonggo">May balatian</div>
+                            <div class="phrase-english">Sick</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Antok</div>
+                            <div class="phrase-ilonggo">Tulog</div>
+                            <div class="phrase-english">Sleepy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Shopping & Money
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bumili ako</div>
+                            <div class="phrase-ilonggo">Nagbakal ako</div>
+                            <div class="phrase-english">I bought</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Magkano ito?</div>
+                            <div class="phrase-ilonggo">Pila ini?</div>
+                            <div class="phrase-english">How much is this?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mahal</div>
+                            <div class="phrase-ilonggo">Mahal</div>
+                            <div class="phrase-english">Expensive</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mura</div>
+                            <div class="phrase-ilonggo">Barato</div>
+                            <div class="phrase-english">Cheap</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pera</div>
+                            <div class="phrase-ilonggo">Kwarta</div>
+                            <div class="phrase-english">Money</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bayad</div>
+                            <div class="phrase-ilonggo">Bayad</div>
+                            <div class="phrase-english">Payment</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sukli</div>
+                            <div class="phrase-ilonggo">Sukli</div>
+                            <div class="phrase-english">Change (money)</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bili</div>
+                            <div class="phrase-ilonggo">Bakal</div>
+                            <div class="phrase-english">Buy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Actions & Commands
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Halika</div>
+                            <div class="phrase-ilonggo">Dali / Kari</div>
+                            <div class="phrase-english">Come here</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tara</div>
+                            <div class="phrase-ilonggo">Tana</div>
+                            <div class="phrase-english">Let's go</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tumigil</div>
+                            <div class="phrase-ilonggo">Magpundo</div>
+                            <div class="phrase-english">Stop</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bilisan mo</div>
+                            <div class="phrase-ilonggo">Dali-a</div>
+                            <div class="phrase-english">Hurry up</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sandali lang</div>
+                            <div class="phrase-ilonggo">Dali lang</div>
+                            <div class="phrase-english">Just a moment</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tigilan mo</div>
+                            <div class="phrase-ilonggo">Pundo-a</div>
+                            <div class="phrase-english">Stop it</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Makinig ka</div>
+                            <div class="phrase-ilonggo">Pamati ka</div>
+                            <div class="phrase-english">Listen</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tingnan mo</div>
+                            <div class="phrase-ilonggo">Tan-aw</div>
+                            <div class="phrase-english">Look</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        School & Education
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Paaralan</div>
+                            <div class="phrase-ilonggo">Eskwelahan</div>
+                            <div class="phrase-english">School</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Guro</div>
+                            <div class="phrase-ilonggo">Maestra/Maestro</div>
+                            <div class="phrase-english">Teacher</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Estudyante</div>
+                            <div class="phrase-ilonggo">Estudyante</div>
+                            <div class="phrase-english">Student</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mag-aral</div>
+                            <div class="phrase-ilonggo">Mag-tuon</div>
+                            <div class="phrase-english">Study</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sumulat</div>
+                            <div class="phrase-ilonggo">Magsulat</div>
+                            <div class="phrase-english">Write</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bumasa</div>
+                            <div class="phrase-ilonggo">Magbasa</div>
+                            <div class="phrase-english">Read</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Aralin</div>
+                            <div class="phrase-ilonggo">Leksyon</div>
+                            <div class="phrase-english">Lesson</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pagsusulit</div>
+                            <div class="phrase-ilonggo">Eksamne</div>
+                            <div class="phrase-english">Exam/Test</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Work & Occupation
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Trabaho</div>
+                            <div class="phrase-ilonggo">Obra</div>
+                            <div class="phrase-english">Work/Job</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Magtrabaho</div>
+                            <div class="phrase-ilonggo">Mag-obra</div>
+                            <div class="phrase-english">To work</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Opisina</div>
+                            <div class="phrase-ilonggo">Opisina</div>
+                            <div class="phrase-english">Office</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Boss</div>
+                            <div class="phrase-ilonggo">Amo</div>
+                            <div class="phrase-english">Boss</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kasama sa trabaho</div>
+                            <div class="phrase-ilonggo">Kauban sa obra</div>
+                            <div class="phrase-english">Coworker</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sahod</div>
+                            <div class="phrase-ilonggo">Suweldo</div>
+                            <div class="phrase-english">Salary</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Abala ako</div>
+                            <div class="phrase-ilonggo">Okupado ako</div>
+                            <div class="phrase-english">I'm busy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Social Phrases
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Paalam</div>
+                            <div class="phrase-ilonggo">Paalam / Adios</div>
+                            <div class="phrase-english">Goodbye</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Ingat ka</div>
+                            <div class="phrase-ilonggo">Ayaw-ayaw</div>
+                            <div class="phrase-english">Take care</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maligayang kaarawan</div>
+                            <div class="phrase-ilonggo">Malipayon nga adlaw natawhan</div>
+                            <div class="phrase-english">Happy birthday</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mabuhay</div>
+                            <div class="phrase-ilonggo">Mabuhay</div>
+                            <div class="phrase-english">Long live/Welcome</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Congratulations</div>
+                            <div class="phrase-ilonggo">Palakpakan</div>
+                            <div class="phrase-english">Congratulations</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sana</div>
+                            <div class="phrase-ilonggo">Kabay pa</div>
+                            <div class="phrase-english">I hope/Hopefully</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Talaga?</div>
+                            <div class="phrase-ilonggo">Tuod?</div>
+                            <div class="phrase-english">Really?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Siyempre</div>
+                            <div class="phrase-ilonggo">Syempre</div>
+                            <div class="phrase-english">Of course</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Baka</div>
+                            <div class="phrase-ilonggo">Basin</div>
+                            <div class="phrase-english">Maybe</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Hindi ko alam</div>
+                            <div class="phrase-ilonggo">Indi ko kamaan</div>
+                            <div class="phrase-english">I don't know</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Health & Medical
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Doktor</div>
+                            <div class="phrase-ilonggo">Doktor</div>
+                            <div class="phrase-english">Doctor</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Nurse</div>
+                            <div class="phrase-ilonggo">Nars</div>
+                            <div class="phrase-english">Nurse</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Gamot</div>
+                            <div class="phrase-ilonggo">Bulong</div>
+                            <div class="phrase-english">Medicine</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sumakit ang ulo ko</div>
+                            <div class="phrase-ilonggo">Nasakit ang ulo ko</div>
+                            <div class="phrase-english">My head hurts</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sumakit ang tiyan ko</div>
+                            <div class="phrase-ilonggo">Nasakit ang tiyan ko</div>
+                            <div class="phrase-english">My stomach hurts</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">May lagnat ako</div>
+                            <div class="phrase-ilonggo">May hilanat ako</div>
+                            <div class="phrase-english">I have a fever</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">May ubo ako</div>
+                            <div class="phrase-ilonggo">May ubo ako</div>
+                            <div class="phrase-english">I have a cough</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">May sipon ako</div>
+                            <div class="phrase-ilonggo">May sip-on ako</div>
+                            <div class="phrase-english">I have a cold</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Restaurant & Dining
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Restawran</div>
+                            <div class="phrase-ilonggo">Restawran</div>
+                            <div class="phrase-english">Restaurant</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Menu</div>
+                            <div class="phrase-ilonggo">Menu</div>
+                            <div class="phrase-english">Menu</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Masarap</div>
+                            <div class="phrase-ilonggo">Namit</div>
+                            <div class="phrase-english">Delicious</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Hindi masarap</div>
+                            <div class="phrase-ilonggo">Indi namit</div>
+                            <div class="phrase-english">Not delicious</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Busog na ako</div>
+                            <div class="phrase-ilonggo">Busog na ako</div>
+                            <div class="phrase-english">I'm full</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Almusal</div>
+                            <div class="phrase-ilonggo">Pamahaw</div>
+                            <div class="phrase-english">Breakfast</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tanghalian</div>
+                            <div class="phrase-ilonggo">Paniudto</div>
+                            <div class="phrase-english">Lunch</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Hapunan</div>
+                            <div class="phrase-ilonggo">Panihapon</div>
+                            <div class="phrase-english">Dinner</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pabili ng...</div>
+                            <div class="phrase-ilonggo">Pabakal sang...</div>
+                            <div class="phrase-english">I'd like to order...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Activities & Hobbies
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maglaro</div>
+                            <div class="phrase-ilonggo">Magdula</div>
+                            <div class="phrase-english">Play/Play games</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Manood ng TV</div>
+                            <div class="phrase-ilonggo">Magtan-aw sang TV</div>
+                            <div class="phrase-english">Watch TV</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Makinig ng musika</div>
+                            <div class="phrase-ilonggo">Magpamati sang musika</div>
+                            <div class="phrase-english">Listen to music</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sumayaw</div>
+                            <div class="phrase-ilonggo">Magsayaw</div>
+                            <div class="phrase-english">Dance</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kumanta</div>
+                            <div class="phrase-ilonggo">Magkanta</div>
+                            <div class="phrase-english">Sing</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Lumangoy</div>
+                            <div class="phrase-ilonggo">Maglangoy</div>
+                            <div class="phrase-english">Swim</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tumakbo</div>
+                            <div class="phrase-ilonggo">Magdalagan</div>
+                            <div class="phrase-english">Run</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Maglakad</div>
+                            <div class="phrase-ilonggo">Maglakat</div>
+                            <div class="phrase-english">Walk</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mag-exercise</div>
+                            <div class="phrase-ilonggo">Mag-ehersisyo</div>
+                            <div class="phrase-english">Exercise</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Emergency Phrases
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Tulong!</div>
+                            <div class="phrase-ilonggo">Bulig!</div>
+                            <div class="phrase-english">Help!</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Emergency</div>
+                            <div class="phrase-ilonggo">Emerhensya</div>
+                            <div class="phrase-english">Emergency</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pulis</div>
+                            <div class="phrase-ilonggo">Pulis</div>
+                            <div class="phrase-english">Police</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Bumbero</div>
+                            <div class="phrase-ilonggo">Bumbero</div>
+                            <div class="phrase-english">Firefighter</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Sunog!</div>
+                            <div class="phrase-ilonggo">Kalayo!</div>
+                            <div class="phrase-english">Fire!</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Nawala ako</div>
+                            <div class="phrase-ilonggo">Nawalaan ako</div>
+                            <div class="phrase-english">I'm lost</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Peligro</div>
+                            <div class="phrase-ilonggo">Peligro</div>
+                            <div class="phrase-english">Danger</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mag-ingat</div>
+                            <div class="phrase-ilonggo">Mag-andam</div>
+                            <div class="phrase-english">Be careful</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        Requests & Questions
+                    </div>
+                    <div class="category-content">
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pwede ba?</div>
+                            <div class="phrase-ilonggo">Pwede bala?</div>
+                            <div class="phrase-english">Can I? / Is it okay?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Pwede ako...</div>
+                            <div class="phrase-ilonggo">Pwede ako...</div>
+                            <div class="phrase-english">Can I...</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Gusto ko...</div>
+                            <div class="phrase-ilonggo">Gusto ko...</div>
+                            <div class="phrase-english">I want...</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Kailangan ko...</div>
+                            <div class="phrase-ilonggo">Kinahanglan ko...</div>
+                            <div class="phrase-english">I need...</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">May...</div>
+                            <div class="phrase-ilonggo">May...</div>
+                            <div class="phrase-english">There is/There are...</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Wala</div>
+                            <div class="phrase-ilonggo">Wala</div>
+                            <div class="phrase-english">None/Nothing</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Mayroon</div>
+                            <div class="phrase-ilonggo">May ara</div>
+                            <div class="phrase-english">Have/Has</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Naiintindihan mo ba?</div>
+                            <div class="phrase-ilonggo">Nakaintindi ka bala?</div>
+                            <div class="phrase-english">Do you understand?</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Naiintindihan ko</div>
+                            <div class="phrase-ilonggo">Nakaintindi ako</div>
+                            <div class="phrase-english">I understand</div>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-tagalog">Hindi ko naiintindihan</div>
+                            <div class="phrase-ilonggo">Indi ako nakaintindi</div>
+                            <div class="phrase-english">I don't understand</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRAMMAR SECTION -->
+            <div id="grammar" class="section">
+                <div class="grammar-card">
+                    <div class="grammar-title">1. Verb Markers</div>
+                    <div class="grammar-content">
+                        In Ilonggo, verbs use specific prefixes to indicate tense:
+                        <div class="example">
+                            <strong>Nag-</strong> (completed action)<br>
+                            Tagalog: <em>Kumain</em> | Ilonggo: <em>Nagkaon</em> (ate)
+                        </div>
+                        <div class="example">
+                            <strong>Naga-</strong> (ongoing action)<br>
+                            Tagalog: <em>Kumakain</em> | Ilonggo: <em>Nagakaon</em> (eating)
+                        </div>
+                        <div class="example">
+                            <strong>Mag-</strong> (future action)<br>
+                            Tagalog: <em>Kakain</em> | Ilonggo: <em>Magakaon</em> (will eat)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grammar-card">
+                    <div class="grammar-title">2. Common Verb Changes</div>
+                    <div class="grammar-content">
+                        <div class="example">
+                            Tagalog: <strong>Pumunta</strong> → Ilonggo: <strong>Nagkadto</strong> (went)<br>
+                            Tagalog: <strong>Pupunta</strong> → Ilonggo: <strong>Makadto</strong> (will go)
+                        </div>
+                        <div class="example">
+                            Tagalog: <strong>Umuwi</strong> → Ilonggo: <strong>Nagbalik</strong> (went home)<br>
+                            Tagalog: <strong>Uuwi</strong> → Ilonggo: <strong>Magbalik</strong> (will go home)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grammar-card">
+                    <div class="grammar-title">3. Particle Words</div>
+                    <div class="grammar-content">
+                        Key differences in particle usage:
+                        <div class="example">
+                            Tagalog: <strong>na</strong> (already) → Ilonggo: <strong>na</strong><br>
+                            Tagalog: <strong>pa</strong> (still) → Ilonggo: <strong>pa</strong><br>
+                            Tagalog: <strong>din/rin</strong> (too) → Ilonggo: <strong>man</strong>
+                        </div>
+                        <div class="example">
+                            Tagalog: "Kumain na ako" → Ilonggo: "Nagkaon na ako"<br>
+                            (I already ate)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grammar-card">
+                    <div class="grammar-title">4. Location Markers</div>
+                    <div class="grammar-content">
+                        <div class="example">
+                            Tagalog: <strong>sa</strong> (at/to) → Ilonggo: <strong>sa</strong><br>
+                            Tagalog: <strong>mula sa</strong> (from) → Ilonggo: <strong>halin sa</strong><br>
+                            Tagalog: <strong>papunta sa</strong> (going to) → Ilonggo: <strong>pakadto sa</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grammar-card">
+                    <div class="grammar-title">5. Negation</div>
+                    <div class="grammar-content">
+                        <div class="example">
+                            Tagalog: <strong>hindi</strong> (not) → Ilonggo: <strong>indi</strong><br>
+                            Tagalog: <strong>wala</strong> (none/nothing) → Ilonggo: <strong>wala</strong>
+                        </div>
+                        <div class="example">
+                            Tagalog: "Hindi ako kumain" → Ilonggo: "Indi ako nagkaon"<br>
+                            (I didn't eat)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRANSLATOR SECTION -->
+            <div id="translator" class="section">
+                <div class="translator-box">
+                    <textarea class="translator-input" id="translateInput" placeholder="Type Tagalog phrase here..."></textarea>
+                    <button class="btn-translate" onclick="translatePhrase()">Translate to Ilonggo</button>
+                    <textarea class="translator-output" id="translateOutput" readonly placeholder="Ilonggo translation will appear here..."></textarea>
+                </div>
+            </div>
+
+            <!-- QUIZ SECTION -->
+            <div id="quiz" class="section">
+                <div class="score-display" id="scoreDisplay">Score: 0 / 0</div>
+                <div id="quizContainer"></div>
+                <button class="btn-translate" onclick="resetQuiz()" style="margin-top: 15px;">Reset Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Translation dictionary
+        const dictionary = {
+            'magandang umaga': 'maayong aga',
+            'magandang hapon': 'maayong hapon',
+            'magandang gabi': 'maayong gab-i',
+            'kumusta': 'kamusta',
+            'kumusta ka': 'kamusta ka',
+            'mabuti': 'maayo',
+            'salamat': 'salamat',
+            'walang anuman': 'wala sing ano',
+            'oo': 'huo',
+            'hindi': 'indi',
+            'ano': 'ano',
+            'saan': 'diin',
+            'kailan': 'san-o',
+            'bakit': 'ngaa',
+            'paano': 'paano',
+            'magkano': 'pila',
+            'ako': 'ako',
+            'ikaw': 'ikaw',
+            'siya': 'siya',
+            'tayo': 'kita',
+            'kami': 'kami',
+            'kayo': 'kamo',
+            'sila': 'sila',
+            'gutom': 'gutom',
+            'uhaw': 'uhaw',
+            'pagod': 'gikapoy',
+            'kain': 'kaon',
+            'mahal kita': 'palangga ta ka',
+            'kumain': 'nagkaon',
+            'pumunta': 'nagkadto',
+            'umuwi': 'nagbalik',
+            'nasaan': 'diin',
+            'tatay': 'tatay',
+            'nanay': 'iloy',
+            'ama': 'amay',
+            'ina': 'iloy',
+            'lolo': 'lolo',
+            'lola': 'lola',
+            'anak': 'anak',
+            'asawa': 'asawa',
+            'tubig': 'tubig',
+            'kanin': 'kan-on',
+            'tinapay': 'tinapay',
+            'kape': 'kape',
+            'gatas': 'gatas',
+            'itlog': 'itlog',
+            'isda': 'isda',
+            'karne': 'karne',
+            'prutas': 'prutas',
+            'gulay': 'utan',
+            'mainit': 'mainit',
+            'malamig': 'matugnaw',
+            'umuulan': 'nagaulan',
+            'maaraw': 'maadlaw',
+            'umaga': 'aga',
+            'tanghali': 'udto',
+            'hapon': 'hapon',
+            'gabi': 'gab-i',
+            'ngayon': 'subong',
+            'bukas': 'bukas',
+            'kahapon': 'kahapon',
+            'puti': 'puti',
+            'itim': 'itom',
+            'pula': 'pula',
+            'asul': 'asul',
+            'berde': 'lunhaw',
+            'dilaw': 'dalag',
+            'lunes': 'lunes',
+            'martes': 'martes',
+            'miyerkules': 'miyerkules',
+            'huwebes': 'huwebes',
+            'biyernes': 'biernes',
+            'sabado': 'sabado',
+            'linggo': 'domingo',
+            'isa': 'isa',
+            'dalawa': 'duha',
+            'tatlo': 'tatlo',
+            'apat': 'apat',
+            'lima': 'lima',
+            'anim': 'anom',
+            'pito': 'pito',
+            'walo': 'walo',
+            'siyam': 'siyam',
+            'sampu': 'napulo',
+            'daan': 'gatos',
+            'libo': 'libo',
+            'ulo': 'ulo',
+            'mata': 'mata',
+            'ilong': 'ilong',
+            'bibig': 'baba',
+            'tenga': 'talinga',
+            'kamay': 'kamot',
+            'paa': 'tiil',
+            'katawan': 'lawas',
+            'kaliwa': 'wala',
+            'kanan': 'tuo',
+            'diretso': 'direcho',
+            'malapit': 'malapit',
+            'malayo': 'malayo',
+            'bahay': 'balay',
+            'tindahan': 'tindahan',
+            'simbahan': 'simbahan',
+            'ospital': 'ospital',
+            'masaya': 'malipayon',
+            'malungkot': 'masubo',
+            'galit': 'akig',
+            'takot': 'hadlok',
+            'masakit': 'masakit',
+            'may sakit': 'may balatian',
+            'antok': 'tulog',
+            'uminom': 'nag-inom',
+            'matulog': 'magkatulog',
+            'gumising': 'nagmata',
+            'magluto': 'magluto',
+            'maglaba': 'maglaba',
+            'maglinis': 'maghinlo',
+            'bumili': 'nagbakal',
+            'aso': 'ido',
+            'pusa': 'kuring',
+            'ibon': 'pispis',
+            'baboy': 'baboy',
+            'manok': 'manok',
+            'kabayo': 'kabayo',
+            'baka': 'baka',
+            'kalabaw': 'karabaw',
+            'libro': 'libro',
+            'papel': 'papel',
+            'lapis': 'lapis',
+            'bolpen': 'bolpen',
+            'mesa': 'lamesa',
+            'silya': 'siya',
+            'pinto': 'pultahan',
+            'bintana': 'bentana',
+            'kama': 'katre',
+            'telepono': 'telepono',
+            'malaki': 'dako',
+            'maliit': 'gamay',
+            'maganda': 'matahom',
+            'pangit': 'law-ay',
+            'bago': 'bag-o',
+            'luma': 'daan',
+            'mabilis': 'madali',
+            'mabagal': 'mahinay',
+            'mataba': 'matambok',
+            'payat': 'maniwang',
+            'bumili ako': 'nagbakal ako',
+            'magkano ito': 'pila ini',
+            'mura': 'barato',
+            'pera': 'kwarta',
+            'bayad': 'bayad',
+            'sukli': 'sukli',
+            'bili': 'bakal',
+            'halika': 'dali',
+            'tara': 'tana',
+            'tumigil': 'magpundo',
+            'bilisan mo': 'dali-a',
+            'sandali lang': 'dali lang',
+            'tigilan mo': 'pundo-a',
+            'makinig ka': 'pamati ka',
+            'tingnan mo': 'tan-aw',
+            'bundok': 'bukid',
+            'dagat': 'dagat',
+            'ilog': 'suba',
+            'bulaklak': 'bulak',
+            'puno': 'kahoy',
+            'dahon': 'dahon',
+            'bato': 'bato',
+            'langit': 'langit',
+            'araw': 'adlaw',
+            'buwan': 'bulan',
+            'damit': 'bayo',
+            'pantalon': 'karsones',
+            'sapatos': 'sapatos',
+            'sombrero': 'kalo',
+            'medyas': 'medyas',
+            'relo': 'relo',
+            'salamin': 'antiparras',
+            'bag': 'bag',
+            'paaralan': 'eskwelahan',
+            'guro': 'maestra',
+            'estudyante': 'estudyante',
+            'mag-aral': 'mag-tuon',
+            'sumulat': 'magsulat',
+            'bumasa': 'magbasa',
+            'aralin': 'leksyon',
+            'pagsusulit': 'eksamne',
+            'trabaho': 'obra',
+            'magtrabaho': 'mag-obra',
+            'opisina': 'opisina',
+            'boss': 'amo',
+            'kasama sa trabaho': 'kauban sa obra',
+            'sahod': 'suweldo',
+            'abala ako': 'okupado ako',
+            'paalam': 'paalam',
+            'ingat ka': 'ayaw-ayaw',
+            'maligayang kaarawan': 'malipayon nga adlaw natawhan',
+            'mabuhay': 'mabuhay',
+            'congratulations': 'palakpakan',
+            'sana': 'kabay pa',
+            'talaga': 'tuod',
+            'siyempre': 'syempre',
+            'baka': 'basin',
+            'hindi ko alam': 'indi ko kamaan',
+            'kutsara': 'kutsara',
+            'tinidor': 'tinidor',
+            'kutsilyo': 'kuchilyo',
+            'plato': 'plato',
+            'baso': 'baso',
+            'tasa': 'tasa',
+            'sabon': 'sabon',
+            'tuwalya': 'tuwalya',
+            'kumot': 'habol',
+            'unan': 'unlan',
+            'kotse': 'awto',
+            'motor': 'motorsiklo',
+            'bisikleta': 'bisikleta',
+            'bus': 'bus',
+            'jeep': 'jeep',
+            'tren': 'tren',
+            'eroplano': 'eroplano',
+            'barko': 'barko',
+            'matangkad': 'mataas',
+            'pandak': 'manubo',
+            'mahaba': 'malaba',
+            'maikli': 'mubo',
+            'malakas': 'mabaskug',
+            'mahina': 'maluya',
+            'matigas': 'matig-a',
+            'malambot': 'malumok',
+            'basa': 'basa',
+            'tuyo': 'mala',
+            'doktor': 'doktor',
+            'nurse': 'nars',
+            'gamot': 'bulong',
+            'sumakit ang ulo ko': 'nasakit ang ulo ko',
+            'sumakit ang tiyan ko': 'nasakit ang tiyan ko',
+            'may lagnat ako': 'may hilanat ako',
+            'may ubo ako': 'may ubo ako',
+            'may sipon ako': 'may sip-on ako',
+            'restawran': 'restawran',
+            'menu': 'menu',
+            'masarap': 'namit',
+            'hindi masarap': 'indi namit',
+            'busog na ako': 'busog na ako',
+            'almusal': 'pamahaw',
+            'tanghalian': 'paniudto',
+            'hapunan': 'panihapon',
+            'pabili ng': 'pabakal sang',
+            'kompyuter': 'kompyuter',
+            'cellphone': 'cellphone',
+            'internet': 'internet',
+            'email': 'email',
+            'mensahe': 'mensahe',
+            'tawag': 'tawag',
+            'larawan': 'litrato',
+            'video': 'video',
+            'oras': 'oras',
+            'minuto': 'minuto',
+            'segundo': 'segundo',
+            'linggo': 'simana',
+            'taon': 'tuig',
+            'maaga': 'sayo',
+            'huli': 'ulihi',
+            'maglaro': 'magdula',
+            'manood ng tv': 'magtan-aw sang tv',
+            'makinig ng musika': 'magpamati sang musika',
+            'sumayaw': 'magsayaw',
+            'kumanta': 'magkanta',
+            'lumangoy': 'maglangoy',
+            'tumakbo': 'magdalagan',
+            'maglakad': 'maglakat',
+            'mag-exercise': 'mag-ehersisyo',
+            'tulong': 'bulig',
+            'emergency': 'emerhensya',
+            'pulis': 'pulis',
+            'bumbero': 'bumbero',
+            'sunog': 'kalayo',
+            'nawala ako': 'nawalaan ako',
+            'peligro': 'peligro',
+            'mag-ingat': 'mag-andam',
+            'pwede ba': 'pwede bala',
+            'pwede ako': 'pwede ako',
+            'gusto ko': 'gusto ko',
+            'kailangan ko': 'kinahanglan ko',
+            'may': 'may',
+            'wala': 'wala',
+            'mayroon': 'may ara',
+            'naiintindihan mo ba': 'nakaintindi ka bala',
+            'naiintindihan ko': 'nakaintindi ako',
+            'hindi ko naiintindihan': 'indi ako nakaintindi'
+        };
+
+        // Quiz questions
+        const quizData = [
+            {
+                question: 'What is "Kumusta ka?" in Ilonggo?',
+                options: ['Maayong aga', 'Kamusta ka', 'Salamat', 'Maayo man'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Two" in Ilonggo?',
+                options: ['Isa', 'Duha', 'Tatlo', 'Apat'],
+                correct: 1
+            },
+            {
+                question: 'What is "Bakit?" in Ilonggo?',
+                options: ['Diin', 'San-o', 'Ngaa', 'Paano'],
+                correct: 2
+            },
+            {
+                question: 'How do you say "I\'m tired" in Ilonggo?',
+                options: ['Gutom ako', 'Uhaw ako', 'Gikapoy ako', 'Maayo ako'],
+                correct: 2
+            },
+            {
+                question: 'What is "Magkano?" in Ilonggo?',
+                options: ['Pila', 'Diin', 'San-o', 'Ngaa'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "You (plural)" in Ilonggo?',
+                options: ['Ikaw', 'Kamo', 'Kami', 'Sila'],
+                correct: 1
+            },
+            {
+                question: 'What is "I love you" in Ilonggo?',
+                options: ['Mahal kita', 'Palangga ta ka', 'Kamusta ka', 'Salamat'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Let\'s eat" in Ilonggo?',
+                options: ['Kain tayo', 'Kaon kita', 'Magkaon', 'Gutom ako'],
+                correct: 1
+            },
+            {
+                question: 'What is "Six" in Ilonggo?',
+                options: ['Anim', 'Anom', 'Lima', 'Pito'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Good morning" in Ilonggo?',
+                options: ['Maayong aga', 'Maayong hapon', 'Maayong gab-i', 'Kamusta'],
+                correct: 0
+            },
+            {
+                question: 'What is "Green" in Ilonggo?',
+                options: ['Lunhaw', 'Dalag', 'Pula', 'Asul'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "Mother" in Ilonggo?',
+                options: ['Tatay', 'Iloy', 'Lola', 'Anak'],
+                correct: 1
+            },
+            {
+                question: 'What is "Vegetables" in Ilonggo?',
+                options: ['Prutas', 'Utan', 'Karne', 'Isda'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Cold" in Ilonggo?',
+                options: ['Mainit', 'Matugnaw', 'Maadlaw', 'Nagaulan'],
+                correct: 1
+            },
+            {
+                question: 'What is "Noon" in Ilonggo?',
+                options: ['Aga', 'Udto', 'Hapon', 'Gab-i'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Today" in Ilonggo?',
+                options: ['Bukas', 'Kahapon', 'Subong', 'Hapon'],
+                correct: 2
+            },
+            {
+                question: 'What is "Hand" in Ilonggo?',
+                options: ['Kamot', 'Tiil', 'Ulo', 'Lawas'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "Right" (direction) in Ilonggo?',
+                options: ['Wala', 'Tuo', 'Direcho', 'Malapit'],
+                correct: 1
+            },
+            {
+                question: 'What is "Happy" in Ilonggo?',
+                options: ['Masubo', 'Malipayon', 'Akig', 'Hadlok'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Bought" in Ilonggo?',
+                options: ['Nagkaon', 'Nagkadto', 'Nagbakal', 'Nagbalik'],
+                correct: 2
+            },
+            {
+                question: 'What is "Dog" in Ilonggo?',
+                options: ['Ido', 'Kuring', 'Pispis', 'Baboy'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "Cat" in Ilonggo?',
+                options: ['Ido', 'Kuring', 'Pispis', 'Manok'],
+                correct: 1
+            },
+            {
+                question: 'What is "Small" in Ilonggo?',
+                options: ['Dako', 'Gamay', 'Matahom', 'Law-ay'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Beautiful" in Ilonggo?',
+                options: ['Matahom', 'Law-ay', 'Bag-o', 'Daan'],
+                correct: 0
+            },
+            {
+                question: 'What is "Money" in Ilonggo?',
+                options: ['Pera', 'Kwarta', 'Bayad', 'Sukli'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Come here" in Ilonggo?',
+                options: ['Tana', 'Dali', 'Pundo-a', 'Tan-aw'],
+                correct: 1
+            },
+            {
+                question: 'What is "Chair" in Ilonggo?',
+                options: ['Lamesa', 'Siya', 'Pultahan', 'Katre'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Tree" in Ilonggo?',
+                options: ['Bulak', 'Kahoy', 'Dahon', 'Bato'],
+                correct: 1
+            },
+            {
+                question: 'What is "River" in Ilonggo?',
+                options: ['Dagat', 'Suba', 'Bukid', 'Langit'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Clothes" in Ilonggo?',
+                options: ['Bayo', 'Karsones', 'Sapatos', 'Kalo'],
+                correct: 0
+            },
+            {
+                question: 'What is "School" in Ilonggo?',
+                options: ['Eskwelahan', 'Opisina', 'Tindahan', 'Simbahan'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "Work/Job" in Ilonggo?',
+                options: ['Obra', 'Suweldo', 'Amo', 'Opisina'],
+                correct: 0
+            },
+            {
+                question: 'What is "Really?" in Ilonggo?',
+                options: ['Tuod', 'Basin', 'Syempre', 'Kabay pa'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "Take care" in Ilonggo?',
+                options: ['Paalam', 'Ayaw-ayaw', 'Mabuhay', 'Palakpakan'],
+                correct: 1
+            },
+            {
+                question: 'What is "Blanket" in Ilonggo?',
+                options: ['Habol', 'Unlan', 'Tuwalya', 'Katre'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "Car" in Ilonggo?',
+                options: ['Awto', 'Motorsiklo', 'Bisikleta', 'Jeep'],
+                correct: 0
+            },
+            {
+                question: 'What is "Medicine" in Ilonggo?',
+                options: ['Doktor', 'Nars', 'Bulong', 'Hilanat'],
+                correct: 2
+            },
+            {
+                question: 'How do you say "Delicious" in Ilonggo?',
+                options: ['Namit', 'Busog', 'Mahal', 'Barato'],
+                correct: 0
+            },
+            {
+                question: 'What is "Breakfast" in Ilonggo?',
+                options: ['Pamahaw', 'Paniudto', 'Panihapon', 'Kan-on'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "Tall" in Ilonggo?',
+                options: ['Mataas', 'Manubo', 'Dako', 'Gamay'],
+                correct: 0
+            },
+            {
+                question: 'What is "Strong" in Ilonggo?',
+                options: ['Maluya', 'Mabaskug', 'Matig-a', 'Malumok'],
+                correct: 1
+            },
+            {
+                question: 'How do you say "Picture/Photo" in Ilonggo?',
+                options: ['Larawan', 'Litrato', 'Video', 'Mensahe'],
+                correct: 1
+            },
+            {
+                question: 'What is "Year" in Ilonggo?',
+                options: ['Oras', 'Simana', 'Bulan', 'Tuig'],
+                correct: 3
+            },
+            {
+                question: 'How do you say "Play" in Ilonggo?',
+                options: ['Magdula', 'Magsayaw', 'Magkanta', 'Maglakat'],
+                correct: 0
+            },
+            {
+                question: 'What is "Help!" in Ilonggo?',
+                options: ['Bulig', 'Kalayo', 'Peligro', 'Emerhensya'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "I understand" in Ilonggo?',
+                options: ['Nakaintindi ako', 'Indi ako nakaintindi', 'Gusto ko', 'Kinahanglan ko'],
+                correct: 0
+            },
+            {
+                question: 'What is "Early" in Ilonggo?',
+                options: ['Sayo', 'Ulihi', 'Subong', 'Oras'],
+                correct: 0
+            },
+            {
+                question: 'How do you say "Swim" in Ilonggo?',
+                options: ['Magdalagan', 'Maglakat', 'Maglangoy', 'Magdula'],
+                correct: 2
+            }
+        ];
+
+        let quizScore = 0;
+        let quizAnswered = 0;
+
+        // Show section function
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected section
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+            
+            // Set active tab
+            event.target.classList.add('active');
+        }
+
+        // Toggle category function
+        function toggleCategory(header) {
+            const content = header.nextElementSibling;
+            if (content) {
+                content.classList.toggle('collapsed');
+                header.classList.toggle('collapsed');
+            }
+        }
+
+        // Translate function
+        function translatePhrase() {
+            const input = document.getElementById('translateInput');
+            const output = document.getElementById('translateOutput');
+            
+            if (!input || !output) return;
+            
+            const text = input.value.toLowerCase().trim();
+            
+            if (!text) {
+                output.value = 'Please enter a Tagalog phrase.';
+                return;
+            }
+            
+            // Check dictionary
+            let translation = dictionary[text];
+            
+            if (!translation) {
+                // Try to find partial matches
+                for (let key in dictionary) {
+                    if (text.includes(key)) {
+                        translation = dictionary[key];
+                        break;
+                    }
+                }
+            }
+            
+            if (translation) {
+                output.value = translation.charAt(0).toUpperCase() + translation.slice(1);
+            } else {
+                output.value = 'Translation not found. Try phrases from the Basics or Phrases sections.';
+            }
+        }
+
+        // Load quiz function
+        function loadQuiz() {
+            const container = document.getElementById('quizContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            quizData.forEach((quiz, index) => {
+                const quizDiv = document.createElement('div');
+                quizDiv.className = 'quiz-container';
+                quizDiv.innerHTML = `
+                    <div class="quiz-question">${index + 1}. ${quiz.question}</div>
+                    ${quiz.options.map((option, i) => `
+                        <div class="quiz-option" onclick="checkAnswer(${index}, ${i}, this)">
+                            ${option}
+                        </div>
+                    `).join('')}
+                `;
+                container.appendChild(quizDiv);
+            });
+        }
+
+        // Check answer function
+        function checkAnswer(questionIndex, selectedOption, element) {
+            if (element.classList.contains('correct') || element.classList.contains('wrong')) {
+                return; // Already answered
+            }
+            
+            const question = quizData[questionIndex];
+            const allOptions = element.parentElement.querySelectorAll('.quiz-option');
+            
+            // Disable all options for this question
+            allOptions.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            if (selectedOption === question.correct) {
+                element.classList.add('correct');
+                quizScore++;
+            } else {
+                element.classList.add('wrong');
+                // Show correct answer
+                allOptions[question.correct].classList.add('correct');
+            }
+            
+            quizAnswered++;
+            updateScore();
+        }
+
+        // Update score function
+        function updateScore() {
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            if (scoreDisplay) {
+                scoreDisplay.textContent = `Score: ${quizScore} / ${quizAnswered}`;
+            }
+        }
+
+        // Reset quiz function
+        function resetQuiz() {
+            quizScore = 0;
+            quizAnswered = 0;
+            updateScore();
+            loadQuiz();
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadQuiz();
+            updateScore();
+        });
+    </script>
+</body>
+</html>
